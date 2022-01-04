@@ -28,6 +28,7 @@ add_compile_options(-funwind-tables)
 add_definitions(-DSTDSOCKET)
 add_definitions(-U__linux__)
 add_definitions(-D_SYS_POLL_H)
+add_definitions(-DZF_LOG_LEVEL=ZF_LOG_DEBUG)
 
 # list of apps to include in the cpio archive
 get_property(apps GLOBAL PROPERTY apps_property)
