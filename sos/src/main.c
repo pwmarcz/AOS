@@ -550,8 +550,9 @@ NORETURN void *main_continued(UNUSED void *arg)
     void *timer_vaddr = sos_map_device(&cspace, PAGE_ALIGN_4K(TIMER_MAP_BASE), PAGE_SIZE_4K);
 
     /* Initialise the network hardware. */
-    printf("Network init\n");
-    network_init(&cspace, timer_vaddr, ntfn);
+    // TODO
+    //printf("Network init\n");
+    //network_init(&cspace, timer_vaddr, ntfn);
 
     /* Initialises the timer */
     printf("Timer init\n");
