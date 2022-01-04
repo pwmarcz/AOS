@@ -59,6 +59,7 @@ static UNUSED const char *register_names[] = {
 };
 
 /* assert that register_names correspond to seL4_UserContext */
+/*
 compile_time_assert(pc_correct_position, offsetof(seL4_UserContext, pc)           == 0);
 compile_time_assert(sp_correct_position, offsetof(seL4_UserContext, sp)           == 1 *  sizeof(seL4_Word));
 compile_time_assert(spsr_correct_position, offsetof(seL4_UserContext, spsr)       == 2 *  sizeof(seL4_Word));
@@ -94,3 +95,4 @@ compile_time_assert(x26_correct_position, offsetof(seL4_UserContext, x26)       
 compile_time_assert(x27_correct_position, offsetof(seL4_UserContext, x27)         == 32 * sizeof(seL4_Word));
 compile_time_assert(x28_correct_position, offsetof(seL4_UserContext, x28)         == 33 * sizeof(seL4_Word));
 
+*/
