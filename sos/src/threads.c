@@ -214,9 +214,9 @@ sos_thread_t *thread_create(thread_main_f function, void *arg, seL4_Word badge, 
     seL4_UserContext context = {
         .pc = (seL4_Word) thread_trampoline,
         .sp = sp,
-        .x0 = (seL4_Word) new_thread,
-        .x1 = (seL4_Word) function,
-        .x2 = (seL4_Word) arg,
+        .r0 = (seL4_Word) new_thread,
+        .r1 = (seL4_Word) function,
+        .r2 = (seL4_Word) arg,
     };
     ZF_LOGD(resume ? "Starting new sos thread at %p\n"
             : "Created new thread starting at %p\n", (void *) context.pc);
