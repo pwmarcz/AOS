@@ -170,7 +170,14 @@ _Unwind_Backtrace(_Unwind_Trace_Fn, void *);
 extern _Unwind_Word _Unwind_GetGR(struct _Unwind_Context *, int);
 extern void _Unwind_SetGR(struct _Unwind_Context *, int, _Unwind_Word);
 
-extern _Unwind_Ptr _Unwind_GetIP(struct _Unwind_Context *);
+//extern _Unwind_Ptr _Unwind_GetIP(struct _Unwind_Context *);
+
+static inline _Unwind_Ptr
+_Unwind_GetIP (struct _Unwind_Context *context)
+{
+    return *((_Unwind_Ptr*)context + 1 + 15) & ~(_Unwind_Word)1;
+}
+
 extern _Unwind_Ptr _Unwind_GetIPInfo(struct _Unwind_Context *, int *);
 extern void _Unwind_SetIP(struct _Unwind_Context *, _Unwind_Ptr);
 

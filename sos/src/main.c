@@ -73,9 +73,6 @@
  * of an archive of attached applications.                */
 extern char _cpio_archive[];
 extern char _cpio_archive_end[];
-extern char __eh_frame_start[];
-/* provided by gcc */
-extern void (__register_frame)(void *);
 
 /* root tasks cspace */
 cspace_t cspace;
@@ -575,10 +572,6 @@ NORETURN void *main_continued(UNUSED void *arg)
 int main(void)
 {
     init_muslc();
-
-    /* register the location of the unwind_tables -- this is required for
-     * backtrace() to work */
-    __register_frame(&__eh_frame_start);
 
     seL4_BootInfo *boot_info = sel4runtime_bootinfo();
 
