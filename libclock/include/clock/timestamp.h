@@ -23,8 +23,9 @@
 static inline uint64_t timestamp_get_freq(void)
 {
     /* ask the coprocessor for the frequency of the timer */
-    uint64_t freq;
-    asm volatile("mrs %0, cntfrq_el0" : "=r"(freq));
+    uint64_t freq = 1;
+    // TODO
+    // asm volatile("mrs %0, cntfrq" : "=r"(freq));
     return freq;
 }
 
@@ -33,7 +34,8 @@ static inline uint64_t timestamp_ticks(void)
 {
     uint64_t time = 0;
     /* ask the coprocessor for the current time */
-    asm volatile("mrs %0, cntvct_el0" : "=r"(time));
+    // TODO
+    // asm volatile("mrs %0, cntvct" : "=r"(time));
     return time;
 }
 
