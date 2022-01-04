@@ -600,7 +600,9 @@ int main(void)
      *
      * NOTE we share this uart with the kernel when the kernel is in debug mode. */
     uart_init(&cspace);
-    update_vputchar(uart_putchar);
+
+    // TODO
+    //update_vputchar(uart_putchar);
 
     /* test print */
     printf("SOS Started!\n");
