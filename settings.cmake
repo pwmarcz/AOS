@@ -12,7 +12,13 @@
 cmake_minimum_required(VERSION 3.7.2)
 
 # set the build platform
-set(PLATFORM odroidc2 CACHE STRING "" FORCE)
+set(PLATFORM am335x-boneblack CACHE STRING "" FORCE)
+set(AARCH32 1 CACHE STRING "" FORCE)
+
+set(CMAKE_C_COMPILER arm-linux-gnueabi-gcc CACHE STRING "" FORCE)
+set(CMAKE_CXX_COMPILER arm-linux-gnueabi-g++ CACHE STRING "" FORCE)
+set(CMAKE_ASM_COMPILER arm-linux-gnueabi-gcc CACHE STRING "" FORCE)
+set(CROSS_COMPILER_PREFIX arm-linux-gnueabi- CACHE STRING "" FORCE)
 
 # build all libs as static
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
@@ -67,6 +73,8 @@ set(KernelVerificationBuild OFF CACHE BOOL "" FORCE)
 set(KernelIRQReporting ON CACHE BOOL "" FORCE)
 set(KernelPrinting ON CACHE BOOL "" FORCE)
 set(KernelDebugBuild ON CACHE BOOL "" FORCE)
+
+set(KernelDangerousCodeInjection ON CACHE BOOL "" FORCE)
 
 # enable our networking libs
 set(LibPicotcp ON CACHE BOOL "" FORCE)
