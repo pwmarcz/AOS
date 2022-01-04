@@ -35,44 +35,6 @@ static seL4_Error retype_map_pt(cspace_t *cspace, seL4_CPtr vspace, seL4_Word va
     return seL4_ARM_PageTable_Map(empty, vspace, vaddr, seL4_ARM_Default_VMAttributes);
 }
 
-/**
- * Retypes and maps a page directory into the root servers page global directory
- * @param cspace that the cptrs refer to
- * @param vaddr  the virtual address of the mapping
- * @param ut     a 4k untyped object
- * @param empty  an empty slot to retype into a pd
- * @return 0 on success
- */
-static seL4_Error retype_map_pd(cspace_t *cspace, seL4_CPtr vspace, seL4_Word vaddr, seL4_CPtr ut, seL4_CPtr empty)
-{
-
-    seL4_Error err = cspace_untyped_retype(cspace, ut, empty, seL4_ARM_PageDirectoryObject, seL4_PageBits);
-    if (err) {
-        return err;
-    }
-
-    return seL4_ARM_PageDirectory_Map(empty, vspace, vaddr, seL4_ARM_Default_VMAttributes);
-}
-
-/**
- * Retypes and maps a page upper directory into the root servers page global directory
- * @param cspace that the cptrs refer to
- * @param vaddr  the virtual address of the mapping
- * @param ut     a 4k untyped object
- * @param empty  an empty slot to retype into a pud
- * @return 0 on success
- */
-static seL4_Error retype_map_pud(cspace_t *cspace, seL4_CPtr vspace, seL4_Word vaddr, seL4_CPtr ut,
-                                 seL4_CPtr empty)
-{
-
-    seL4_Error err = cspace_untyped_retype(cspace, ut, empty, seL4_ARM_PageUpperDirectoryObject, seL4_PageBits);
-    if (err) {
-        return err;
-    }
-    return seL4_ARM_PageUpperDirectory_Map(empty, vspace, vaddr, seL4_ARM_Default_VMAttributes);
-}
-
 static seL4_Error map_frame_impl(cspace_t *cspace, seL4_CPtr frame_cap, seL4_CPtr vspace, seL4_Word vaddr,
                                  seL4_CapRights_t rights, seL4_ARM_VMAttributes attr,
                                  seL4_CPtr *free_slots, seL4_Word *used)
@@ -107,13 +69,6 @@ static seL4_Error map_frame_impl(cspace_t *cspace, seL4_CPtr frame_cap, seL4_CPt
         switch (failed) {
         case SEL4_MAPPING_LOOKUP_NO_PT:
             err = retype_map_pt(cspace, vspace, vaddr, ut->cap, slot);
-            break;
-        case SEL4_MAPPING_LOOKUP_NO_PD:
-            err = retype_map_pd(cspace, vspace, vaddr, ut->cap, slot);
-            break;
-
-        case SEL4_MAPPING_LOOKUP_NO_PUD:
-            err = retype_map_pud(cspace, vspace, vaddr, ut->cap, slot);
             break;
         }
 

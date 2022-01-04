@@ -198,11 +198,6 @@ void sos_bootstrap(cspace_t *cspace, const seL4_BootInfo *bi)
     size += (n_pts * BIT(seL4_PageTableBits));
     n_slots += n_pts;
 
-    /* and the other paging structures */
-    size += (BIT(seL4_PUDBits));
-    size += (BIT(seL4_PageDirBits));
-    n_slots += 2;
-
     /* 1 cptr for dma */
     n_slots++;
 
@@ -304,27 +299,8 @@ void sos_bootstrap(cspace_t *cspace, const seL4_BootInfo *bi)
     /* set the levels to 2 so we can use cspace_untyped_retype */
     cspace->two_level = true;
 
-    /* allocate the PUD */
+    /* allocate the page tables */
     seL4_CPtr first_free_slot = bi->empty.start;
-    err = cspace_untyped_retype(cspace, ut_cptr, first_free_slot, seL4_ARM_PageUpperDirectoryObject, seL4_PageBits);
-    ZF_LOGF_IFERR(err, "Failed to create page upper directory");
-
-    /* map it */
-    err = seL4_ARM_PageUpperDirectory_Map(first_free_slot, seL4_CapInitThreadVSpace, SOS_UT_TABLE,
-                                          seL4_ARM_Default_VMAttributes);
-    ZF_LOGF_IFERR(err, "Failed to map page upper directory");
-    first_free_slot++;
-
-    /* then the page dir */
-    err = cspace_untyped_retype(cspace, ut_cptr, first_free_slot, seL4_ARM_PageDirectoryObject, seL4_PageBits);
-    ZF_LOGF_IFERR(err, "Failed to create page directory");
-
-    err = seL4_ARM_PageDirectory_Map(first_free_slot, seL4_CapInitThreadVSpace, SOS_UT_TABLE,
-                                     seL4_ARM_Default_VMAttributes);
-    ZF_LOGF_IFERR(err, "Failed to map page directory");
-    first_free_slot++;
-
-    /* then the page tables */
     for (size_t i = 0; i < (ut_pages >> seL4_PageTableIndexBits) + 1; i++) {
         err = cspace_untyped_retype(cspace, ut_cptr, first_free_slot, seL4_ARM_PageTableObject, seL4_PageBits);
         ZF_LOGF_IFERR(err, "Failed to create page table");

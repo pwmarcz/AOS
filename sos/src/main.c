@@ -327,8 +327,8 @@ static uintptr_t init_process_stack(cspace_t *cspace, seL4_CPtr local_vspace, el
 bool start_first_process(char *app_name, seL4_CPtr ep)
 {
     /* Create a VSpace */
-    tty_test_process.vspace_ut = alloc_retype(&tty_test_process.vspace, seL4_ARM_PageGlobalDirectoryObject,
-                                              seL4_PGDBits);
+    tty_test_process.vspace_ut = alloc_retype(&tty_test_process.vspace, seL4_ARM_PageDirectoryObject,
+                                              seL4_PageDirBits);
     if (tty_test_process.vspace_ut == NULL) {
         return false;
     }

@@ -70,7 +70,7 @@ static struct {
     /* cspace used to make allocations of capabilities. */
     cspace_t *cspace;
     /* vspace used to map pages into SOS. */
-    seL4_ARM_PageGlobalDirectory vspace;
+    seL4_ARM_PageDirectory vspace;
 } frame_table = {
     .frames = (void *)SOS_FRAME_TABLE,
     .frame_data = (void *)SOS_FRAME_DATA,
