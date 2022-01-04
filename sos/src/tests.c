@@ -23,7 +23,7 @@
 static void test_bf_bit(unsigned long bit)
 {
     ZF_LOGV("%lu", bit);
-    seL4_Word bitfield[2] = {0};
+    unsigned long bitfield[2] = {0};
     assert(bf_first_free(2, bitfield) == 0);
 
     bf_set_bit(bitfield, bit);
@@ -40,13 +40,13 @@ static void test_bf(void)
     test_bf_bit(0);
 
     test_bf_bit(1);
+    test_bf_bit(31);
+    test_bf_bit(32);
+    test_bf_bit(33);
     test_bf_bit(63);
-    test_bf_bit(64);
-    test_bf_bit(65);
-    test_bf_bit(127);
 
-    seL4_Word bitfield[2] = {0};
-    for (unsigned int i = 0; i < 127; i++) {
+    unsigned long bitfield[2] = {0};
+    for (unsigned int i = 0; i < 63; i++) {
         assert(bf_get_bit(bitfield, i) == 0);
         bf_set_bit(bitfield, i);
         assert(bf_get_bit(bitfield, i));

@@ -34,9 +34,9 @@ static struct {
     seL4_IRQControl irq_control;
     seL4_CPtr notification;
     cspace_t *cspace;
-    seL4_Word flag_bits;
-    seL4_Word ident_bits;
-    seL4_Word allocated_bits;
+    unsigned long flag_bits;
+    unsigned long ident_bits;
+    unsigned long allocated_bits;
 } irq_dispatch;
 
 /*
