@@ -113,7 +113,7 @@ ethif_dma_addr_t ethif_dma_malloc(uint32_t size, uint32_t align)
     dma_addr_t addr = sos_dma_malloc(size, align);
     ethif_dma_addr_t eaddr =
     { .paddr = addr.paddr, .vaddr = addr.vaddr, .size = size };
-    ZF_LOGD("ethif_dma_malloc -> vaddr: %lx, paddr: %lx\n, sz: %lx",
+    ZF_LOGD("ethif_dma_malloc -> vaddr: %zx, paddr: %zx\n, sz: %zx",
             eaddr.vaddr, eaddr.paddr, eaddr.size);
     return eaddr;
 }
@@ -227,8 +227,8 @@ void network_init(cspace_t *cspace, void *timer_vaddr, seL4_CPtr irq_ntfn)
      * picotcp if the interface fails to be brought up */
 
     /* Map the ethernet MAC MMIO registers into our address space */
-    uint64_t eth_base_vaddr =
-        (uint64_t)sos_map_device(cspace, ODROIDC2_ETH_PHYS_ADDR, ODROIDC2_ETH_PHYS_SIZE);
+    uintptr_t eth_base_vaddr =
+        (uintptr_t)sos_map_device(cspace, ODROIDC2_ETH_PHYS_ADDR, ODROIDC2_ETH_PHYS_SIZE);
 
     /* Populate DMA operations required by the ethernet driver */
     ethif_dma_ops_t ethif_dma_ops;

@@ -91,7 +91,7 @@ ut_t *ut_alloc_4k_untyped(uintptr_t *paddr)
     if (paddr) {
         *paddr = ut_to_paddr(n);
     }
-    ZF_LOGD("Allocated %lx, cap %lx", ut_to_paddr(n), n->cap);
+    ZF_LOGD("Allocated %zx, cap %zx", ut_to_paddr(n), n->cap);
     return n;
 }
 

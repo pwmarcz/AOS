@@ -202,7 +202,7 @@ static void push_front(frame_list_t *list, frame_t *frame)
     list->length += 1;
     frame->list_id = list->list_id;
 
-    ZF_LOGD("%s.length = %lu", LIST_NAME(list), list->length);
+    ZF_LOGD("%s.length = %zu", LIST_NAME(list), list->length);
 }
 
 static void push_back(frame_list_t *list, frame_t *frame)
@@ -223,7 +223,7 @@ static void push_back(frame_list_t *list, frame_t *frame)
 
         frame->list_id = list->list_id;
         list->length += 1;
-        ZF_LOGD("%s.length = %lu", LIST_NAME(list), list->length);
+        ZF_LOGD("%s.length = %zu", LIST_NAME(list), list->length);
     } else {
         /* Empty list */
         push_front(list, frame);
@@ -251,7 +251,7 @@ static frame_t *pop_front(frame_list_t *list)
         head->prev = NULL_FRAME;
         head->next = NULL_FRAME;
         list->length -= 1;
-        ZF_LOGD("%s.length = %lu", LIST_NAME(list), list->length);
+        ZF_LOGD("%s.length = %zu", LIST_NAME(list), list->length);
         return head;
     } else {
         return NULL;
@@ -281,7 +281,7 @@ static void remove_frame(frame_list_t *list, frame_t *frame)
     frame->list_id = NO_LIST;
     frame->prev = NULL_FRAME;
     frame->next = NULL_FRAME;
-    ZF_LOGD("%s.length = %lu", LIST_NAME(list), list->length);
+    ZF_LOGD("%s.length = %zu", LIST_NAME(list), list->length);
 }
 
 static frame_t *alloc_fresh_frame(void)
@@ -322,7 +322,7 @@ static frame_t *alloc_fresh_frame(void)
         .list_id = NO_LIST,
     };
 
-    ZF_LOGD("Frame table contains %lu/%lu frames", frame_table.used, frame_table.capacity);
+    ZF_LOGD("Frame table contains %zu/%zu frames", frame_table.used, frame_table.capacity);
     return frame;
 }
 
@@ -351,7 +351,7 @@ static int bump_capacity(void)
     }
 #endif
 
-    ZF_LOGD("Frame table contains %lu/%lu frames", frame_table.used, frame_table.capacity);
+    ZF_LOGD("Frame table contains %zu/%zu frames", frame_table.used, frame_table.capacity);
     return 0;
 }
 

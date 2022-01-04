@@ -75,20 +75,20 @@ int sos_register_irq_handler(
 {
     unsigned long ident_bit = alloc_irq_bit();
     if (ident_bit >= seL4_BadgeBits) {
-        ZF_LOGE("Exhausted IRQ notificatoin bits for IRQ #%lu", irq);
+        ZF_LOGE("Exhausted IRQ notificatoin bits for IRQ #%zu", irq);
         return ENOMEM;
     }
 
     seL4_CPtr handler_cptr = cspace_alloc_slot(irq_dispatch.cspace);
     if (handler_cptr == 0) {
-        ZF_LOGE("Could not allocate irq handler slot for IRQ #%lu", irq);
+        ZF_LOGE("Could not allocate irq handler slot for IRQ #%zu", irq);
         free_irq_bit(ident_bit);
         return ENOMEM;
     }
 
     seL4_CPtr notification_cptr = cspace_alloc_slot(irq_dispatch.cspace);
     if (notification_cptr == 0) {
-        ZF_LOGE("Could not allocate notification slot for IRQ #%lu", irq);
+        ZF_LOGE("Could not allocate notification slot for IRQ #%zu", irq);
         cspace_free_slot(irq_dispatch.cspace, handler_cptr);
         free_irq_bit(ident_bit);
         return ENOMEM;
@@ -97,7 +97,7 @@ int sos_register_irq_handler(
     seL4_Error err = cspace_irq_control_get(irq_dispatch.cspace, handler_cptr, irq_dispatch.irq_control, irq,
                                             edge_triggered);
     if (err != 0) {
-        ZF_LOGE("Could not allocate irq handler for IRQ #%lu", irq);
+        ZF_LOGE("Could not allocate irq handler for IRQ #%zu", irq);
         cspace_free_slot(irq_dispatch.cspace, handler_cptr);
         cspace_free_slot(irq_dispatch.cspace, notification_cptr);
         free_irq_bit(ident_bit);
@@ -109,7 +109,7 @@ int sos_register_irq_handler(
     err = cspace_mint(irq_dispatch.cspace, notification_cptr, irq_dispatch.cspace, irq_dispatch.notification, seL4_CanWrite,
                       badge);
     if (err != 0) {
-        ZF_LOGE("Could not mint notification for IRQ #%lu", irq);
+        ZF_LOGE("Could not mint notification for IRQ #%zu", irq);
         cspace_delete(irq_dispatch.cspace, handler_cptr);
         cspace_free_slot(irq_dispatch.cspace, handler_cptr);
         cspace_free_slot(irq_dispatch.cspace, notification_cptr);
@@ -119,7 +119,7 @@ int sos_register_irq_handler(
 
     err = seL4_IRQHandler_SetNotification(handler_cptr, notification_cptr);
     if (err != 0) {
-        ZF_LOGE("Could not set notification for IRQ #%lu", irq);
+        ZF_LOGE("Could not set notification for IRQ #%zu", irq);
         cspace_delete(irq_dispatch.cspace, notification_cptr);
         cspace_delete(irq_dispatch.cspace, handler_cptr);
         cspace_free_slot(irq_dispatch.cspace, handler_cptr);
@@ -141,7 +141,7 @@ int sos_register_irq_handler(
         *irq_handler = handler_cptr;
     }
 
-    ZF_LOGI("Registered IRQ #%lu with badge 0x%lX", irq, badge);
+    ZF_LOGI("Registered IRQ #%zu with badge 0x%zX", irq, badge);
     return 0;
 }
 
@@ -155,12 +155,12 @@ int sos_handle_irq_notification(seL4_Word *badge)
     while (unchecked_bits) {
         unsigned long bit = CTZL(unchecked_bits);
         irq_handler_t *irq_handler = &irq_handlers[bit];
-        ZF_LOGD("Handling IRQ #%lu", irq_handler->irq);
+        ZF_LOGD("Handling IRQ #%zu", irq_handler->irq);
 
         /* Any bits that have been set that we have allocated*/
         int err = dispatch_irq(irq_handler);
         if (err != 0) {
-            ZF_LOGE("Error handling IRQ #%lu", irq_handler->irq);
+            ZF_LOGE("Error handling IRQ #%zu", irq_handler->irq);
             return err;
         }
 

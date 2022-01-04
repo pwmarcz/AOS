@@ -125,7 +125,7 @@ void handle_syscall(UNUSED seL4_Word badge, UNUSED int num_args, seL4_CPtr reply
         break;
 
     default:
-        ZF_LOGE("Unknown syscall %lu\n", syscall_number);
+        ZF_LOGE("Unknown syscall %u\n", syscall_number);
         /* don't reply to an unknown syscall */
     }
 }
@@ -502,7 +502,7 @@ void init_muslc(void)
     muslcsys_install_syscall(__NR_tkill, sys_tkill);
     muslcsys_install_syscall(__NR_exit_group, sys_exit_group);
     muslcsys_install_syscall(__NR_ioctl, sys_ioctl);
-    muslcsys_install_syscall(__NR_mmap, sys_mmap);
+    muslcsys_install_syscall(__NR_mmap2, sys_mmap);
     muslcsys_install_syscall(__NR_brk,  sys_brk);
     muslcsys_install_syscall(__NR_clock_gettime, sys_clock_gettime);
     muslcsys_install_syscall(__NR_nanosleep, sys_nanosleep);

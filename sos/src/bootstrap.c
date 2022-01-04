@@ -218,7 +218,7 @@ void sos_bootstrap(cspace_t *cspace, const seL4_BootInfo *bi)
 
     /* check our cnodes will fit into our top level cnode */
     ZF_LOGF_IF(n_cnodes > CNODE_SLOTS(INITIAL_TASK_CNODE_SIZE_BITS), "Insufficient slots %lu for"
-               "bottom level cnodes %lu", CNODE_SLOTS(INITIAL_TASK_CNODE_SIZE_BITS), n_cnodes);
+               "bottom level cnodes %zu", CNODE_SLOTS(INITIAL_TASK_CNODE_SIZE_BITS), n_cnodes);
 
     /* now we have worked out how much memory we need to set up the system -
      * steal some memory from an untyped big enough to allocate it all from */
